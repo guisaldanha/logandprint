@@ -1,0 +1,6 @@
+__pycache__/
+/logandprint.egg-info/
+/dist/
+/build/
+/tests/
+/venv/
