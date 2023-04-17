@@ -1,8 +1,16 @@
-"""This module is used to log messages in a file and, if debug mode is enabled, in the console."""
+"""
+Log and Print
+pip install logandprint
+
+This module is used to log messages in a file and, if debug mode is enabled, in the console.
+
+Author: Guilherme Saldanha
+"""
 
 import time
 import datetime
 import os
+import sys
 from datetime import date
 from inspect import getframeinfo, stack
 
@@ -22,7 +30,7 @@ def checkDir():
             if not os.path.isdir(os.path.dirname(logFile)):
                 os.makedirs(os.path.dirname(logFile))
     except OSError as e:
-        die('Error creating directory for: ' + logFile + ' - ' + str(e))
+        sys.exit('Error creating directory for: ' + logFile + ' - ' + str(e))
 
 
 def checkFile():
@@ -45,13 +53,13 @@ def checkFile():
             if diff > 0 or os.path.getsize(logFile) > 5000000:
                 os.remove(logFile)
     except OSError as e:
-        die('Error creating file: ' + logFile + ' - ' + str(e))
+        sys.exit('Error creating file: ' + logFile + ' - ' + str(e))
 
 
 def write(msg, console=True):
     """
     Write a message in the log file.
-    
+
     param msg: The message to be logged.
     param console: If you want to print the message in the console.
     """
@@ -77,12 +85,12 @@ def write(msg, console=True):
             with open(logFile, 'a+', encoding="UTF-8") as f:
                 f.write(logMsg)
     except OSError as e:
-        die('Error writing to file: ' + logFile + ' - ' + str(e))
+        sys.exit('Error writing to file: ' + logFile + ' - ' + str(e))
 
 
 def setLogFile(file):
     """
-    With this function you can set the log file, the file and directories will be created if it doesn't exist. The default log file is './log.log'. 
+    With this function you can set the log file, the file and directories will be created if it doesn't exist. The default log file is './log.log'.
     """
     global logFile
     logFile = file
