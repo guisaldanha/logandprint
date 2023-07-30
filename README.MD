@@ -4,7 +4,7 @@ A simple logging package that helps you to log what is happening in your applica
 
 ## Installation
 
-You can install `LogAndPrint` using pip:
+You can install [Log and Print](https://pypi.org/project/logandprint/) using pip:
 
 ```bash
 pip install logandprint
@@ -21,7 +21,11 @@ To write a message to the log:
 ```python
 import logandprint as log
 
-log.write("This is a message that will be logged")
+log.write("This is a common log message")
+log.info("This is log information, it appears blue in the terminal")
+log.error("This is an error message, it appears red in the terminal")
+log.success("This is a success message, it appears green in the terminal")
+log.warning("This is a warning message, it appears yellow in the terminal")
 ```
 
 ### setLogFile
@@ -48,7 +52,7 @@ log.debugMode(False)
 
 ### enable
 
-To disable the `logg` you can call the `enable` function and set it to False.
+To disable the `log` you can call the `enable` function and set it to False.
 
 ```python
 log.enable(False)
@@ -58,6 +62,14 @@ And to enable it again you can call the `enable` function and set it to True.
 
 ```python
 log.enable(True)
+```
+
+### export_to_csv
+
+You can export the log to a csv file by calling the `export_to_csv` function.
+
+```python
+log.export_to_csv("./logs/myLogFile.csv")
 ```
 
 ## Author
