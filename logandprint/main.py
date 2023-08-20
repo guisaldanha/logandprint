@@ -92,13 +92,15 @@ def write(msg, console=True, type=''):
             if printInConsole or console:
                 match type:
                     case 'INFO':
-                        print('\033[96m' + logMsg + '\033[0m')
+                        print('\033[96m' + logMsg + '\033[0m') # cyan
                     case 'ERROR':
-                        print('\033[91m' + logMsg + '\033[0m')
+                        print('\033[91m' + logMsg + '\033[0m') # red
                     case 'SUCCESS':
-                        print('\033[92m' + logMsg + '\033[0m')
+                        print('\033[92m' + logMsg + '\033[0m') # green
                     case 'WARNING':
-                        print('\033[93m' + logMsg + '\033[0m')
+                        print('\033[93m' + logMsg + '\033[0m') # yellow
+                    case 'DEBUG':
+                        print('\033[97m' + logMsg + '\033[0m') # white
                     case _:
                         print(logMsg)
 
@@ -171,6 +173,36 @@ def warning(msg, console=True):
     param console: If you want to print the message in the console.
     """
     write(msg, console, 'WARNING')
+
+
+def log(msg, console=True):
+    """
+    Write a log message in the log file.
+
+    param msg: The message to be logged.
+    param console: If you want to print the message in the console.
+    """
+    write(msg, console)
+
+
+def debug(msg):
+    """
+    Write a debug message in the log file.
+
+    param msg: The message to be logged.
+    param console: If you want to print the message in the console.
+    """
+    write(msg, False, 'DEBUG')
+
+
+def print(msg):
+    """
+    Write a message in the log file and in the console.
+
+    param msg: The message to be logged.
+    param console: If you want to print the message in the console.
+    """
+    write(msg, True)
 
 
 def export_to_csv(file='./log.csv'):

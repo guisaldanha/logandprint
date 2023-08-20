@@ -1,5 +1,7 @@
 # Log and Print
 
+[![PyPI version](https://img.shields.io/pypi/v/logandprint)](https://pypi.org/project/logandprint/) [![License](https://img.shields.io/github/license/guisaldanha/logandprint)](LICENSE) [![Downloads](https://img.shields.io/pypi/dm/logandprint)](https://img.shields.io/pypi/dm/logandprint)
+
 A simple logging package that helps you to log what is happening in your application.
 
 ## Installation
@@ -26,6 +28,9 @@ log.info("This is log information, it appears blue in the terminal")
 log.error("This is an error message, it appears red in the terminal")
 log.success("This is a success message, it appears green in the terminal")
 log.warning("This is a warning message, it appears yellow in the terminal")
+log.debug("This is a debug message, it appears white in the terminal")
+log.log("This is a common log message, it is an alias for log.write")
+log.print("This is a common log message and will be printed to the terminal")
 ```
 
 ### setLogFile

@@ -1,6 +1,9 @@
 import setuptools
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
-version = '1.1'
+version = '1.2'
 
 setuptools.setup(
     name = "logandprint",
@@ -8,7 +11,7 @@ setuptools.setup(
     author = "Guilherme Saldanha",
     author_email = "guisaldanha@gmail.com",
     description = "A simple logging package that helps you to log what is happening in your application.",
-    long_description = "This logging package is a straightforward yet powerful tool that assists developers in logging the activities occurring within their application. It provides a user-friendly interface and customizable settings, enabling developers to generate comprehensive logs that document events and actions within their application. This package is an essential tool for developers who want to troubleshoot issues, improve performance, and optimize the user experience",
+    long_description=long_description,
     long_description_content_type = "text/markdown",
     license_files = ('LICENSE',),
     url = "https://github.com/guisaldanha/logandprint",
