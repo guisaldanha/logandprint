@@ -16,9 +16,9 @@ pip install logandprint
 
 To start logging it is as simple as importing the logandprint object and issuing the logging commands:
 
-### write
+### write, info, error, success, warning, debug
 
-To write a message to the log:
+To logging a message to the log:
 
 ```python
 import logandprint as log
@@ -29,9 +29,11 @@ log.error("This is an error message, it appears red in the terminal")
 log.success("This is a success message, it appears green in the terminal")
 log.warning("This is a warning message, it appears yellow in the terminal")
 log.debug("This is a debug message, it appears white in the terminal")
-log.log("This is a common log message, it is an alias for log.write")
-log.print("This is a common log message and will be printed to the terminal")
 ```
+
+The `write`, `info`, `error`, `success`, `warning` methods accept two parameters, the message and the console flag (boolean) to display or not the message in the terminal.
+
+In the `debub` method, messages will only be displayed in the terminal if debug mode is active `log.debubMode(True)`
 
 ### setLogFile
 

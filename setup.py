@@ -1,11 +1,11 @@
 import setuptools
 import os
 
-readme = os.path.join(os.path.dirname(__file__), 'README.md')
+readme = os.path.join(os.path.dirname(__file__), 'README.MD')
 with open(readme, encoding='utf-8') as f:
     long_description = f.read()
 
-version = '1.2.1'
+version = '1.2.2'
 
 setuptools.setup(
     name = "logandprint",
