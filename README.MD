@@ -33,7 +33,7 @@ log.debug("This is a debug message, it appears white in the terminal")
 
 The `write`, `info`, `error`, `success`, `warning` methods accept two parameters, the message and the console flag (boolean) to display or not the message in the terminal.
 
-In the `debub` method, messages will only be displayed in the terminal if debug mode is active `log.debubMode(True)`
+In the `debub` method, messages will only be displayed in the terminal if debug mode is active `log.debugMode(True)`
 
 ### setLogFile
 
@@ -43,12 +43,12 @@ By default, the log is saved in the `log.log` file in the current directory. But
 log.setLogFile("./logs/myLogFile.log")
 ```
 
-### debubMode
+### debugMode
 
 The log packet will not be printed to the console. You can change this by setting `debugMode` to True.
 
 ```python
-log.debubMode(True)
+log.debugMode(True)
 ```
 
 To stop printing to the console, change the `debugMode` setting to False. Don't worry, the log file will still be writing.

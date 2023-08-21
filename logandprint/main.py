@@ -127,7 +127,7 @@ def enable(active):
     enable = active
 
 
-def debubMode(active):
+def debugMode(active):
     """
     With this function you can enable or disable the debug mode. This will print the logs in the console.
     """
