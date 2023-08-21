@@ -40,6 +40,8 @@ jobs:
           run: |
             python3 -m pip install --upgrade pip
             pip install setuptools wheel twine
+        - name: List files (debug)
+          run: ls -la
         - name: Build and publish
           env:
             TWINE_USERNAME: __token__

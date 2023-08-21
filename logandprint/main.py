@@ -175,16 +175,6 @@ def warning(msg, console=True):
     write(msg, console, 'WARNING')
 
 
-def log(msg, console=True):
-    """
-    Write a log message in the log file.
-
-    param msg: The message to be logged.
-    param console: If you want to print the message in the console.
-    """
-    write(msg, console)
-
-
 def debug(msg):
     """
     Write a debug message in the log file.
@@ -193,16 +183,6 @@ def debug(msg):
     param console: If you want to print the message in the console.
     """
     write(msg, False, 'DEBUG')
-
-
-def print(msg):
-    """
-    Write a message in the log file and in the console.
-
-    param msg: The message to be logged.
-    param console: If you want to print the message in the console.
-    """
-    write(msg, True)
 
 
 def export_to_csv(file='./log.csv'):
