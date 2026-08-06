@@ -6,6 +6,7 @@ with open(readme, encoding='utf-8') as f:
     long_description = f.read()
 
 version = os.environ.get('PACKAGE_VERSION', '0.0.0.dev0')
+# Para novas versões, basta adicionar a tag no git e quando der push GitHub Actions irá atualizar automaticamente a versão do pacote no PiPy
 
 setuptools.setup(
     name = "logandprint",
