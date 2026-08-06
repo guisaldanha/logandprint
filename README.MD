@@ -1,6 +1,6 @@
 # Log and Print
 
-[![PyPI version](https://img.shields.io/pypi/v/logandprint)](https://pypi.org/project/logandprint/) [![License](https://img.shields.io/github/license/guisaldanha/logandprint)](LICENSE) [![Downloads](https://img.shields.io/pypi/dm/logandprint)](https://img.shields.io/pypi/dm/logandprint)
+[![PyPI version](https://img.shields.io/pypi/v/logandprint)](https://pypi.org/project/logandprint/) [![License](https://img.shields.io/github/license/guisaldanha/logandprint)](LICENSE) [![Downloads](https://img.shields.io/pypi/dm/logandprint?cacheSeconds=86400)](https://pypi.org/project/logandprint/)
 
 A simple logging package that helps you to log what is happening in your application.
 
@@ -41,6 +41,28 @@ By default, the log is saved in the `log.log` file in the current directory. But
 
 ```python
 log.setLogFile("./logs/myLogFile.log")
+```
+
+### setMaxFileSize
+
+By default, the log file is rotated once it reaches 2,000,000 bytes (2MB), or when the day changes. You can change the maximum size (in bytes) with `setMaxFileSize`.
+
+```python
+log.setMaxFileSize(10000000)  # 10MB
+```
+
+### setBackupCount
+
+When the log file is rotated, by default 1 backup is kept (`myLogFile.log.bak1`). You can change how many backups are kept with `setBackupCount`. Older backups are shifted (`.bak1` -> `.bak2`, and so on) and the oldest one beyond the configured count is discarded.
+
+```python
+log.setBackupCount(3)  # keeps myLogFile.log.bak1, .bak2 and .bak3
+```
+
+Set it to `0` to disable backups entirely: the log file is simply cleared on rotation instead of being kept, which is the fastest option if you don't care about old logs.
+
+```python
+log.setBackupCount(0)
 ```
 
 ### debugMode
