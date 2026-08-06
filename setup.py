@@ -5,7 +5,7 @@ readme = os.path.join(os.path.dirname(__file__), 'README.MD')
 with open(readme, encoding='utf-8') as f:
     long_description = f.read()
 
-version = '1.2.3'
+version = os.environ.get('PACKAGE_VERSION', '0.0.0.dev0')
 
 setuptools.setup(
     name = "logandprint",
