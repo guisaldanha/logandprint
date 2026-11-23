@@ -11,6 +11,7 @@ import time
 import datetime
 import os
 import sys
+import threading
 from datetime import date
 
 import csv
@@ -27,6 +28,18 @@ _openLogFile = None
 _currentFileSize = 0
 _currentFileDate = None
 
+# Serializes rotation, open, write and size/date bookkeeping across threads.
+# RLock because write() calls helpers that take the lock again.
+_lock = threading.RLock()
+
+
+def _warn(msg):
+    """A logging failure must never kill the caller (or its thread): warn on stderr only."""
+    try:
+        sys.stderr.write('logandprint: ' + msg + '\n')
+    except Exception:
+        pass
+
 
 def checkDir():
     """
@@ -38,7 +51,7 @@ def checkDir():
         if dirName and not os.path.isdir(dirName):
             os.makedirs(dirName)
     except OSError as e:
-        sys.exit('Error creating directory for: ' + logFile + ' - ' + str(e))
+        _warn('Error creating directory for: ' + logFile + ' - ' + str(e))
 
 
 def _closeFile():
@@ -46,12 +59,13 @@ def _closeFile():
     Close the currently open log file handle, if any.
     """
     global _fileHandle
-    if _fileHandle is not None:
-        try:
-            _fileHandle.close()
-        except OSError:
-            pass
-        _fileHandle = None
+    with _lock:
+        if _fileHandle is not None:
+            try:
+                _fileHandle.close()
+            except OSError:
+                pass
+            _fileHandle = None
 
 
 def _rotate():
@@ -77,7 +91,8 @@ def _rotate():
         elif os.path.isfile(logFile):
             os.remove(logFile)
     except OSError as e:
-        sys.exit('Error rotating file: ' + logFile + ' - ' + str(e))
+        # Keep logging to the current file; _openFile() reopens it and the next write retries.
+        _warn('Error rotating file: ' + logFile + ' - ' + str(e))
 
 
 def _openFile():
@@ -102,7 +117,8 @@ def _openFile():
         _openLogFile = logFile
         return _fileHandle
     except OSError as e:
-        sys.exit('Error creating file: ' + logFile + ' - ' + str(e))
+        _warn('Error creating file: ' + logFile + ' - ' + str(e))
+        return None
 
 
 def write(msg, console=True, type=''):
@@ -145,18 +161,23 @@ def write(msg, console=True, type=''):
 
             encoded = (logMsg + '\n').encode('UTF-8')
 
-            fileHandle = _openFile()
-
-            if date.today() != _currentFileDate or _currentFileSize + len(encoded) > maxFileSize:
-                _rotate()
+            with _lock:
                 fileHandle = _openFile()
+                if fileHandle is None:
+                    return  # could not open: line skipped in file (console already printed)
 
-            fileHandle.write(encoded)
-            fileHandle.flush()
-            _currentFileSize += len(encoded)
-            _currentFileDate = date.today()
-    except OSError as e:
-        sys.exit('Error writing to file: ' + logFile + ' - ' + str(e))
+                if date.today() != _currentFileDate or _currentFileSize + len(encoded) > maxFileSize:
+                    _rotate()
+                    fileHandle = _openFile()
+                    if fileHandle is None:
+                        return
+
+                fileHandle.write(encoded)
+                fileHandle.flush()
+                _currentFileSize += len(encoded)
+                _currentFileDate = date.today()
+    except (OSError, ValueError) as e:  # ValueError: write on a handle closed by enable(False)
+        _warn('Error writing to file: ' + logFile + ' - ' + str(e))
 
 
 def setLogFile(file):
@@ -164,9 +185,10 @@ def setLogFile(file):
     With this function you can set the log file, the file and directories will be created if it doesn't exist. The default log file is './log.log'.
     """
     global logFile
-    if file != logFile:
-        _closeFile()
-    logFile = file
+    with _lock:
+        if file != logFile:
+            _closeFile()
+        logFile = file
 
 
 def setMaxFileSize(size):
