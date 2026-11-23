@@ -288,8 +288,9 @@ def export_to_csv(file='./log.csv'):
 
     try:
         if _enabled:
-            if _fileHandle is not None:
-                _fileHandle.flush()
+            with _lock:
+                if _fileHandle is not None:
+                    _fileHandle.flush()
 
             data = []
             pattern = r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) - \[(.*?):(\d+)\]\s+-\s+(\w+)\s+-\s+(.+)'
@@ -306,5 +307,5 @@ def export_to_csv(file='./log.csv'):
                 writer.writerow(header)
                 writer.writerows(data)
 
-    except OSError as e:
-        sys.exit('Error exporting to csv file: ' + logFile + ' - ' + str(e))
+    except (OSError, ValueError) as e:
+        _warn('Error exporting to csv file: ' + logFile + ' - ' + str(e))
