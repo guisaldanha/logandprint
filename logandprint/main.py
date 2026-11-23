@@ -308,4 +308,4 @@ def export_to_csv(file='./log.csv'):
                 writer.writerows(data)
 
     except (OSError, ValueError) as e:
-        _warn('Error exporting to csv file: ' + logFile + ' - ' + str(e))
+        _warn('Error exporting to csv file: ' + str(getattr(e, 'filename', None) or file) + ' - ' + str(e))
